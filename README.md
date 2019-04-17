@@ -160,7 +160,7 @@ Available targets:
 | name | The Name of the application or solution  (e.g. `bastion` or `portal`) | string | - | yes |
 | namespace | Namespace (e.g. `cp` or `cloudposse`) | string | - | yes |
 | noncurrent_version_expiration_days | S3 object versions expiration period (days) | string | `35` | no |
-| region | (Optional) AWS Region. If not specified, will be derived from 'aws_region' data source | string | `` | no |
+| region | AWS Region. | string | `` | yes |
 | ssh_key_pair | `SSH` key that will be deployed on DataPipeline's instance | string | - | yes |
 | stage | Stage (e.g. `prod`, `dev`, `staging`) | string | - | yes |
 | subnet_id | Optionally specify the subnet to use | string | `` | no |
