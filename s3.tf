@@ -4,7 +4,7 @@ module "logs_label" {
   stage      = var.stage
   name       = var.name
   delimiter  = var.delimiter
-  attributes = [compact(concat(var.attributes, ["logs"]))]
+  attributes = flatten([compact(concat(var.attributes, ["logs"]))])
   tags       = var.tags
 }
 
@@ -20,7 +20,7 @@ module "backups_label" {
   stage      = var.stage
   name       = var.name
   delimiter  = var.delimiter
-  attributes = [compact(concat(var.attributes, ["backups"]))]
+  attributes = flatten([compact(concat(var.attributes, ["backups"]))])
   tags       = var.tags
 }
 

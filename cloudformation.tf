@@ -4,7 +4,7 @@ module "sns_label" {
   stage      = var.stage
   name       = var.name
   delimiter  = var.delimiter
-  attributes = [compact(concat(var.attributes, ["sns"]))]
+  attributes = flatten([compact(concat(var.attributes, ["sns"]))])
   tags       = var.tags
 }
 
@@ -25,7 +25,7 @@ module "datapipeline_label" {
   stage      = var.stage
   name       = var.name
   delimiter  = var.delimiter
-  attributes = [compact(concat(var.attributes, ["datapipeline"]))]
+  attributes = flatten([compact(concat(var.attributes, ["datapipeline"]))])
   tags       = var.tags
 }
 
@@ -35,7 +35,7 @@ resource "aws_cloudformation_stack" "datapipeline" {
 
   parameters = {
     myInstanceType    = var.datapipeline_config["instance_type"]
-    mySubnetId        = var.subnet_id == "" ? data.aws_subnet_ids.default.ids[0] : var.subnet_id
+    mySubnetId        = var.subnet_id == "" ? list(data.aws_subnet_ids.default.ids)[0] : var.subnet_id
     mySecurityGroupId = var.datapipeline_security_group == "" ? join("", aws_security_group.datapipeline.*.id) : var.datapipeline_security_group
     myEFSHost = var.use_ip_address == "true" ? data.aws_efs_mount_target.default.ip_address : format(
       "%s.efs.%s.amazonaws.com",

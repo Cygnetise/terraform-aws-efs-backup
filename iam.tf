@@ -59,7 +59,7 @@ module "role_label" {
   stage      = var.stage
   name       = var.name
   delimiter  = var.delimiter
-  attributes = [compact(concat(var.attributes, ["role"]))]
+  attributes = flatten([compact(concat(var.attributes, ["role"]))])
   tags       = var.tags
 }
 
