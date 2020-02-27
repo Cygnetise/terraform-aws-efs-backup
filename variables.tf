@@ -20,6 +20,9 @@ variable "vpc_id" {
   description = "VPC ID"
 }
 
+variable "s3_logs_bucket_id" {
+}
+
 # https://www.terraform.io/docs/configuration/variables.html
 # simply using string values rather than booleans for variables is recommended
 variable "use_ip_address" {

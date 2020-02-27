@@ -12,6 +12,19 @@ resource "aws_s3_bucket" "logs" {
   bucket        = module.logs_label.id
   force_destroy = true
   tags          = module.logs_label.tags
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
+  logging {
+    target_bucket = "${var.s3_logs_bucket_id}"
+    target_prefix = "${var.stage}/log/efs_logs/"
+  }
 }
 
 module "backups_label" {
@@ -38,6 +51,11 @@ resource "aws_s3_bucket" "backups" {
         sse_algorithm = "AES256"
       }
     }
+  }
+
+  logging {
+    target_bucket = "${var.s3_logs_bucket_id}"
+    target_prefix = "${var.stage}/log/efs_backups/"
   }
 
   lifecycle_rule {
