@@ -27,6 +27,14 @@ resource "aws_s3_bucket" "logs" {
   }
 }
 
+resource "aws_s3_bucket_public_access_block" "logs" {
+  bucket = aws_s3_bucket.logs.s3_bucket_id
+
+  block_public_acls   = true
+  block_public_policy = true
+  ignore_public_acls  = true
+}
+
 module "backups_label" {
   source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.15.0"
   namespace  = var.namespace
@@ -68,3 +76,10 @@ resource "aws_s3_bucket" "backups" {
   }
 }
 
+resource "aws_s3_bucket_public_access_block" "backups" {
+  bucket = aws_s3_bucket.backups.s3_bucket_id
+
+  block_public_acls   = true
+  block_public_policy = true
+  ignore_public_acls  = true
+}
