@@ -28,7 +28,7 @@ resource "aws_s3_bucket" "logs" {
 }
 
 resource "aws_s3_bucket_public_access_block" "logs" {
-  bucket = aws_s3_bucket.logs.s3_bucket_id
+  bucket = aws_s3_bucket.logs.id
 
   block_public_acls   = true
   block_public_policy = true
@@ -77,7 +77,7 @@ resource "aws_s3_bucket" "backups" {
 }
 
 resource "aws_s3_bucket_public_access_block" "backups" {
-  bucket = aws_s3_bucket.backups.s3_bucket_id
+  bucket = aws_s3_bucket.backups.id
 
   block_public_acls   = true
   block_public_policy = true
