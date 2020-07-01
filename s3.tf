@@ -63,7 +63,7 @@ data "aws_iam_policy_document" "logs" {
   }
 }
 
-resource "aws_s3_bucket_policy" "s3" {
+resource "aws_s3_bucket_policy" "logs" {
   bucket = aws_s3_bucket.logs.id
   policy = data.aws_iam_policy_document.logs.json
 }
@@ -140,7 +140,7 @@ data "aws_iam_policy_document" "backups" {
   }
 }
 
-resource "aws_s3_bucket_policy" "s3" {
+resource "aws_s3_bucket_policy" "backup" {
   bucket = aws_s3_bucket.backups.id
   policy = data.aws_iam_policy_document.backups.json
 }
