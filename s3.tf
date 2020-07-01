@@ -26,7 +26,7 @@ resource "aws_s3_bucket" "logs" {
   }
 
   logging {
-    target_bucket = "${var.s3_logs_bucket_id}"
+    target_bucket = var.s3_logs_bucket_id
     target_prefix = "${var.stage}/efs_logs/"
   }
 }
@@ -95,7 +95,7 @@ resource "aws_s3_bucket" "backups" {
   }
 
   logging {
-    target_bucket = "${var.s3_logs_bucket_id}"
+    target_bucket = var.s3_logs_bucket_id
     target_prefix = "${var.stage}/efs_backups/"
   }
 
