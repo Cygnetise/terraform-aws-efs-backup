@@ -49,6 +49,7 @@ data "aws_iam_policy_document" "logs" {
       "s3:*",
     ]
     principals {
+      type        = "AWS"
       identifiers = ["*"]
     }
     condition {
@@ -126,6 +127,7 @@ data "aws_iam_policy_document" "backups" {
       "s3:*",
     ]
     principals {
+      type        = "AWS"
       identifiers = ["*"]
     }
     condition {
