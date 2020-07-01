@@ -13,6 +13,10 @@ resource "aws_s3_bucket" "logs" {
   force_destroy = true
   tags          = module.logs_label.tags
 
+  versioning {
+    enabled = true
+  }
+
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
@@ -34,6 +38,34 @@ resource "aws_s3_bucket_public_access_block" "logs" {
   block_public_policy = true
   ignore_public_acls  = true
   restrict_public_buckets = true
+}
+
+
+data "aws_iam_policy_document" "logs" {
+  statement {
+    sid    = "ForceSSLOnlyAccess"
+    effect = "Deny"
+    actions = [
+      "s3:*",
+    ]
+    principals {
+      identifiers = ["*"]
+    }
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values = ["false"]
+    }
+    resources = [
+      aws_s3_bucket.logs.arn,
+      "${aws_s3_bucket.logs.arn}/*",
+    ]
+  }
+}
+
+resource "aws_s3_bucket_policy" "s3" {
+  bucket = aws_s3_bucket.logs.id
+  policy = data.aws_iam_policy_document.logs.json
 }
 
 module "backups_label" {
@@ -85,3 +117,31 @@ resource "aws_s3_bucket_public_access_block" "backups" {
   ignore_public_acls  = true
   restrict_public_buckets = true
 }
+
+data "aws_iam_policy_document" "backups" {
+  statement {
+    sid    = "ForceSSLOnlyAccess"
+    effect = "Deny"
+    actions = [
+      "s3:*",
+    ]
+    principals {
+      identifiers = ["*"]
+    }
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values = ["false"]
+    }
+    resources = [
+      aws_s3_bucket.backups.arn,
+      "${aws_s3_bucket.backups.arn}/*",
+    ]
+  }
+}
+
+resource "aws_s3_bucket_policy" "s3" {
+  bucket = aws_s3_bucket.backups.id
+  policy = data.aws_iam_policy_document.backups.json
+}
+
